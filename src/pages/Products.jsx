@@ -8,7 +8,7 @@ import SizeFilter from "../components/product/SizeFilter";
 import PriceSort from "../components/product/PriceSort";
 import SkeletonCard from "../components/common/SkeletonCard";
 import SearchBar from "../components/product/SearchBar";
-
+import { fetchProducts } from "../services/api";
 const PRODUCTS_PER_PAGE = 8;
 
 export default function Products() {
@@ -28,22 +28,14 @@ export default function Products() {
     setSearch(queryFromURL);
   }, [searchParams]);
 
-  useEffect(() => {
-    setLoading(true);
-    setError("");
-    const url = selectedCategory
-      ? `https://fakestoreapi.com/products/category/${encodeURIComponent(selectedCategory)}`
-      : "https://fakestoreapi.com/products";
-
-    fetch(url)
-      .then(res => {
-        if (!res.ok) throw new Error("Failed to fetch products.");
-        return res.json();
-      })
-      .then(data => setProducts(data))
-      .catch(() => setError("An error occurred loading products."))
-      .finally(() => setLoading(false));
-  }, [selectedCategory]);
+ useEffect(() => {
+  setLoading(true);
+  setError("");
+  fetchProducts(selectedCategory)
+    .then(setProducts)
+    .catch(() => setError("An error occurred loading products."))
+    .finally(() => setLoading(false));
+}, [selectedCategory]);
 
   useEffect(() => {
     setCurrentPage(1);

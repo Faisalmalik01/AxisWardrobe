@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 import Loader from "../components/common/Loader";
-
+import { fetchProducts } from "../services/api";
 export default function ProductDetail() {
   const { id } = useParams();
   const { addToCart } = useCart();
@@ -11,18 +11,14 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    setLoading(true);
-    setError("");
-    fetch(`https://fakestoreapi.com/products/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Fetch error");
-        return res.json();
-      })
-      .then((data) => setProduct(data))
-      .catch(() => setError("Error loading product."))
-      .finally(() => setLoading(false));
-  }, [id]);
+useEffect(() => {
+  setLoading(true);
+  setError("");
+  fetchProduct(id)
+    .then(setProduct)
+    .catch(() => setError("Error loading product."))
+    .finally(() => setLoading(false));
+}, [id]);
 
   if (loading) return <Loader />;
   if (error || !product)

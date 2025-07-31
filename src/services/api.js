@@ -1,4 +1,4 @@
-const API = "https://fakestoreapi.com";
+const API = import.meta.env.VITE_API_URL;
 
 export async function fetchProducts(category = "") {
   let url = category ? `${API}/products/category/${encodeURIComponent(category)}` : `${API}/products`;

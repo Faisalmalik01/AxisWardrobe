@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
+import { fetchCategories } from "../../services/api";
 
 export default function CategoryFilter({ selected, onSelect }) {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products/categories")
-      .then((res) => res.json())
-      .then(setCategories)
-      .catch(() => setCategories([]));
-  }, []);
-
+    fetchCategories()
+    .then(setCategories)
+    .catch(() => setCategories([])); // Fallback if error
+}, []);
   const baseClasses =
     "px-4 py-1.5 text-xs uppercase tracking-wide border font-light transition-all duration-200";
 
