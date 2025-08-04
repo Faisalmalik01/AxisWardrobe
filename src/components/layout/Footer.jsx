@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-
-// Replace this with actual Link from react-router-dom in your app
-const Link = ({ to, children, className }) => (
-  <a href={to} className={className}>{children}</a>
-);
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   const [email, setEmail] = useState("");

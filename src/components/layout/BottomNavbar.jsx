@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Home, Shirt, Heart, ShoppingCart } from "lucide-react";
 import ProfileMenu from "./ProfileMenu";
+import { useCart } from "../../context/CartContext";
 
 const navItems = [
   { to: "/", Icon: Home },
@@ -12,12 +13,15 @@ const navItems = [
 
 export default function BottomNavbar() {
   const location = useLocation();
+  const { cart } = useCart();
+  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white/90 backdrop-blur-md border-t border-gray-200 shadow-[0_-1px_4px_rgba(0,0,0,0.05)] overflow-visible">
       <div className="flex justify-around items-center h-16 relative">
         {navItems.map(({ to, Icon }) => {
           const isActive = location.pathname === to;
+          const isCart = to === "/cart";
           return (
             <Link
               key={to}
@@ -27,6 +31,11 @@ export default function BottomNavbar() {
               } hover:text-black`}
             >
               <Icon size={22} />
+              {isCart && totalQuantity > 0 && (
+                <span className="absolute -top-1 -right-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                  {totalQuantity}
+                </span>
+              )}
               {isActive && (
                 <motion.span
                   layoutId="nav-indicator"
