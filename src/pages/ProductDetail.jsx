@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 import Loader from "../components/common/Loader";
-import { fetchProducts } from "../services/api";
+import { fetchProduct } from "../services/api";
 export default function ProductDetail() {
   const { id } = useParams();
   const { addToCart } = useCart();
